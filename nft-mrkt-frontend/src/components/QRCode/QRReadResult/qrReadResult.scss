@@ -1,0 +1,12 @@
+.qrCodeResult{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    margin-top: 60px;
+    margin-bottom: 60px;
+    color: rgb(16, 100, 174);
+    overflow: scroll;
+    background-color: var(--ethblack);
+}

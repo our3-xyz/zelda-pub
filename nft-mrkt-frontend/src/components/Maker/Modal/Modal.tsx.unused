@@ -1,0 +1,250 @@
+// import React, { useState } from "react";
+// import axios from "axios";
+// import styles from "./Modal.module.scss";
+// import "./Modal.scss";
+// import { userStore } from "../../../Store/userStore";
+// import { GetInstance } from "../../../api/BackendIf";
+// import Confirm from "./Confirm";
+// import { ethers } from "ethers";
+//
+// interface ModalProps {
+//   setIsOpen: any
+// }
+//
+// const Modal: React.FC<ModalProps> = ({ setIsOpen }) => {
+//
+//   let initialFieldNames = ["color", "size", "material"];
+//   let initialFieldValues = ["", "", ""];
+//
+//   const [fieldNames, setFieldNames] = useState(initialFieldNames);
+//   const [fieldValues, setFieldValues] = useState(initialFieldValues);
+//   const [ipfsHash, setIpfsHash] = useState<string>("");
+//   const [fileImg, setFileImg] = useState<File | null>(null);
+//   const [imgHash, setImgHash] = useState<string>("");
+//   const [name, setName] = useState<string>("");
+//   const [price, setPrice] = useState<number>(0);
+//   const [quantity, setQuantity] = useState<number>(0);
+//   const [confirmOpen, setConfirmOpen] = useState(false);
+//   const [contractAddress, setContractAddress] = useState("");
+//   const [imgURL, setImgURL] = useState<string>("");
+//
+//   const addField = () => {
+//     const thisFieldNames = fieldNames.slice();
+//     const thisFieldValues = fieldValues.slice();
+//     console.log(thisFieldNames, thisFieldValues);
+//     let defaultKey = "key";
+//     let defaultValue = "";
+//     let originalLength = thisFieldNames.length;
+//
+//     thisFieldNames[originalLength + 1] = defaultKey;
+//     thisFieldValues[originalLength + 1] = defaultValue;
+//
+//     if (thisFieldNames.length !== thisFieldValues.length) {
+//       alert("Arrays aren't equal!!!");
+//       console.log(thisFieldNames, thisFieldValues);
+//     }
+//     setFieldNames(thisFieldNames);
+//     setFieldValues(thisFieldValues);
+//   };
+//
+//   const removeField = (event: React.FormEvent, index: number) => {
+//     const thisFieldNames = fieldNames.slice();
+//     const thisFieldValues = fieldValues.slice();
+//     thisFieldNames.splice(index, 1);
+//     thisFieldValues.splice(index, 1);
+//
+//     if (thisFieldNames.length !== thisFieldValues.length) {
+//       alert("Arrays aren't equal!!!");
+//     }
+//     setFieldNames(thisFieldNames);
+//     setFieldValues(thisFieldValues);
+//   };
+//
+//   const handleFormChange = (event: React.FormEvent<HTMLInputElement>, index: number) => {
+//     console.log("new f:", fieldNames, fieldValues);
+//
+//     const thisFieldNames = fieldNames.slice();
+//     const thisFieldValues = fieldValues.slice();
+//
+//     let newContent = event.currentTarget.value;
+//     let className = event.currentTarget.className;
+//     if (className === "key") {
+//       thisFieldNames[index] = newContent;
+//     } else if (className === "value") {
+//       thisFieldValues[index] = newContent;
+//     }
+//
+//     if (thisFieldNames.length !== thisFieldValues.length) {
+//       alert("Arrays aren't equal!!!");
+//     }
+//     setFieldNames(thisFieldNames);
+//     setFieldValues(thisFieldValues);
+//     console.log("new f:", fieldNames, fieldValues);
+//   };
+//
+//   const submit = (e: React.FormEvent<HTMLElement>) => {
+//     e.preventDefault();
+//     console.log(fieldNames, fieldValues);
+//   };
+//
+//   const sendJSONToIPFS = async () => {
+//     // e.preventDefault()
+//     if (fieldNames.length !== fieldValues.length) {
+//       alert("Arrays aren't equal!!!");
+//     }
+//
+//     try {
+//       // console.log("various variables", process.env);
+//
+//       const api_key = process.env.REACT_APP_PINATA_API_KEY;
+//       const api_secret_key = process.env.REACT_APP_PINATA_API_SECRET_KEY;
+//
+//       if (api_key != null && api_secret_key != null) {
+//
+//         const resFile = await axios({
+//           method: "post",
+//           url: "https://api.pinata.cloud/pinning/pinJSONToIPFS",
+//           headers: {
+//             "pinata_api_key": api_key,
+//             "pinata_secret_api_key": api_secret_key,
+//             "Content-Type": "application/json"
+//           },
+//           data: { fieldNames, fieldValues }
+//         });
+//
+//         const ipfsHash = `ipfs://${resFile.data.IpfsHash}`;
+//         setIpfsHash(ipfsHash);
+//         console.log("JSON: ", ipfsHash);
+//       } else {
+//         console.log("API Keys not found");
+//       }
+//
+//     } catch (error) {
+//       console.log("Error sending File to IPFS: ");
+//       console.log(error);
+//     }
+//   };
+//
+//   const sendFileToIPFS = async () => {
+//     // e.preventDefault() // Not sure what this does. Keeping in case of future bug
+//
+//     if (!fileImg) {
+//       return;
+//     }
+//     // console.log("We have found a file", fileImg);
+//     try {
+//       // console.log("various variables", process.env);
+//
+//       const api_key = process.env.REACT_APP_PINATA_API_KEY;
+//       const api_secret_key = process.env.REACT_APP_PINATA_API_SECRET_KEY;
+//
+//       if (api_key != null && api_secret_key != null) {
+//         const formData = new FormData();
+//         formData.append("file", fileImg);
+//
+//         const resFile = await axios({
+//           method: "post",
+//           url: "https://api.pinata.cloud/pinning/pinFileToIPFS",
+//           data: formData,
+//           headers: {
+//             "pinata_api_key": api_key,
+//             "pinata_secret_api_key": api_secret_key,
+//             "Content-Type": "multipart/form-data"
+//           }
+//         });
+//
+//         const ImgHash = `ipfs://${resFile.data.IpfsHash}`;
+//         await setImgHash(ImgHash);
+//         console.log("Img: ", ImgHash);
+//         console.log("string stored in useState for image: ", imgHash);
+//         //Take a look at your Pinata Pinned section, you will see a new file added to you list.
+//       } else {
+//         console.log("API Keys not found");
+//       }
+//
+//     } catch (error) {
+//       console.log("Error sending File to IPFS: ");
+//       console.log(error);
+//     }
+//   };
+//
+//   async function handleCreation() {
+//     if (name !== "") {
+//       await sendFileToIPFS();
+//       await sendJSONToIPFS();
+//       const backend = GetInstance();
+//       console.log("imgHash",imgHash)
+//       const response = await backend.addCollectionContract(
+//         name,
+//         "zld",
+//         imgHash,
+//         "test_product_meta",
+//         ethers.BigNumber.from(price),
+//         quantity
+//       );
+//       setContractAddress(response.contractAddress);
+//       setConfirmOpen(true);
+//     } else {
+//       alert("name cannot be empty")
+//     }
+//   }
+//
+//   return (
+//     <>
+//       <div className={styles.darkBG} onClick={() => setIsOpen(false)} />
+//       <div className={styles.centered}>
+//         <div className={styles.modal}>
+//           <div className={styles.modalHeader}>
+//             <h5 className={styles.heading}>Add Product Line</h5>
+//           </div>
+//           <div className={styles.modalContent}>
+//             <form className={styles.modalForm}>
+//               <div className={styles.stndrdInputs}>
+//                 <label> Product Name:&nbsp;
+//                   <input className={styles.rightAlign} placeholder="Golden Ticket" type="text" onChange={e => setName(e.target.value)}></input>
+//                 </label>
+//                 <label> Product Price:&nbsp;&nbsp;
+//                   <input className={styles.rightAlign} placeholder="$99" type="number" onChange={e => setPrice(parseInt(e.target.value))}></input>
+//                   {/* I could only make this work with parseInt... any thoughts? */}
+//                 </label>
+//                 <label> Quantity:&nbsp;
+//                   <input className={styles.rightAlign} placeholder="100" type="number" onChange={e => setQuantity(parseInt(e.target.value))}></input>
+//                   {/* I could only make this work with parseInt... any thoughts? */}
+//                 </label>
+//                 <label> Product Image:&nbsp;&nbsp;
+//                   <input className={styles.rightAlign} type="file" onChange={
+//                     (e) => {
+//                       if (e.target.files) {
+//                         setFileImg(e.target.files[0]);
+//                         setImgURL(URL.createObjectURL(e.target.files[0]));
+//                       }
+//                     }} required />
+//                 </label>
+//                 <img src={imgURL} className="modal-preview-image" />
+//
+//               </div>
+//             </form>
+//           </div>
+//           <div className={styles.modalActions}>
+//             <div className={styles.actionsContainer}>
+//               <button className={styles.deleteBtn} onClick={() => handleCreation()}>
+//                 Create Product Line
+//               </button>
+//               <button
+//                 className={styles.cancelBtn}
+//                 onClick={() => setIsOpen(false)}
+//               >
+//                 Cancel
+//               </button>
+//             </div>
+//           </div>
+//         </div>
+//       </div>
+//       {confirmOpen && <Confirm address={contractAddress} toggle={() => {
+//         setIsOpen(false);
+//       }} />}
+//     </>
+//   );
+// };
+//
+// export default Modal;

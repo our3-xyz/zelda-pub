@@ -1,0 +1,52 @@
+.scan-Wrapper{
+    display: flex;
+    flex-direction: row;
+    //box-sizing: border-box;
+    position: relative;
+    scrollbar-width: none; //for firefox
+    box-sizing: border-box;
+    top: 60px;
+    height: calc(100vh - 60px);
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    background-color: var(--gray);
+    overflow: hidden;
+    padding: 20px;
+}
+
+.scan-Wrapper-main {
+    flex-direction: column;
+    padding: 10px;
+    width: 80%;
+    background-color: var(--ZELDABEIGE);
+    border-radius: 10px 10px 10px 10px;
+    justify-content: center;
+    align-items: center;
+    overflow: scroll;
+}
+
+.scan-Wrapper-row {
+    display: flex;
+    padding: 12px;
+    width: 100%;
+    background-color: var(--ZELDABEIGE);
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-weight: 900;
+    font-size: 2.5vw;
+}
+
+.scan-qrCodeReader{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    max-width: 90vw;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    color: rgb(16, 100, 174);
+    overflow: scroll;
+    background-color: var(--ethblack);
+}

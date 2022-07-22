@@ -1,0 +1,12 @@
+.splashcardwrapper{
+    display: flex;
+    box-sizing: border-box;
+    width: 100%;
+    height: calc(100vh - 120px);
+    position: relative;
+    top: 60px;
+    scrollbar-width: none; //for firefox
+    overflow-x: none;
+    overflow-y: scroll;
+    justify-content: space-evenly;
+}

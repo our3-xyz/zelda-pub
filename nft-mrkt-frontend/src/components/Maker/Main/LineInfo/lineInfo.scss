@@ -1,0 +1,94 @@
+.token{
+    display:flex;
+    justify-content: flex-start;
+    width: 95%;
+    height: 15vh;
+    margin: 1% 0  0 2%;
+    align-items: center;
+    background-color: var(--ZELDABEIGE);
+    box-shadow: inset 0px 0px 29px -13px #b28b00;
+    // box-shadow: 0px 0px 29px -18px #b28b00;
+    border-radius: 30px;
+
+    .link {
+        color: black;
+        transition-duration: .3s;
+    }
+    .link:hover{
+        transform: scale(1.05);
+        cursor: pointer;
+    }
+
+    .wrapper{
+        display:flex;
+        align-items: center;
+        width: 15%;
+        margin-top: 1%;
+        margin-left: 2%;
+        justify-content: flex-start;
+
+        .title{
+            display:flex;
+            white-space: nowrap;
+            overflow: hidden;
+            font-size: 1.5vw;
+            font-weight: 600;
+        }
+        .data{
+            display:flex;
+            white-space: nowrap;
+            overflow: hidden;
+            font-size: 1.2vw;
+            font-weight: 500;
+        }
+        img{
+            width: auto;
+            height: auto;
+            max-width: 90%;
+            max-height: 90%;
+
+        }
+    }
+    .first {
+        margin-left: 4%;
+    }
+    .owner{
+        display:flex;
+        align-items: center;
+        width: 26%;
+        margin-top: 1%;
+        justify-content: flex-start;
+
+        .title{
+            display:flex;
+            white-space: nowrap;
+            overflow: hidden;
+            font-size: 1.5vw;
+            font-weight: 600;
+        }
+        .data{
+            display:flex;
+            white-space: nowrap;
+            overflow: hidden;
+            font-size: 1.2vw;
+            font-weight: 500;
+        }
+    }
+    .qr{
+        display: flex;
+        width: 15%;
+        align-items: center;
+        margin-left: 2%;
+
+        button{
+            width: 100%;
+            padding: 2%;
+            border: none;
+            border-radius: 10px;
+            background-color: var(--ZELDAGREEN);
+            font-weight: 700;
+            font-size: 1.6vw;
+            text-align: center;
+        }
+    }
+}
